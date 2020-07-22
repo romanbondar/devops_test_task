@@ -1,0 +1,13 @@
+---
+- name: Setup nginx as Load Balancer
+  hosts: vm1
+  become: true
+  roles:
+    - Role_A
+
+- name: Setup Apache, PHP, and app
+  hosts: vm2,vm3
+  become: true
+  roles:
+    - Role_B
+...

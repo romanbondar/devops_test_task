@@ -1,0 +1,30 @@
+- name: Install nginx
+  yum:
+    name: nginx
+    state: latest
+
+- name: >
+    Install libsemanage-python
+    (seboolean module dependancy)
+  yum:
+    name: libsemanage-python
+    state: latest
+
+- name: Allow Nginx networking
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+
+- name: Use nginx_lb.conf file template
+  template:
+    src: /vagrant/nginx_lb_conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
